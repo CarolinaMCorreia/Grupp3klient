@@ -1,5 +1,6 @@
 package org.campusmolndal;
 
+import org.campusmolndal.ApiClient;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -26,7 +27,14 @@ public class RegisterController {
         if (username.isBlank() || password.isBlank()) {
             fErrorMessage.setText("Enter valid username and password");
         } else {
-            /*ApiClient.register(username, password);*/
+            ApiResponse response = ApiClient.register(username, password);
+            if (response.isSuccessful()) {
+                fErrorMessage.setText("Registration successful!"); // Hantera framgång
+            } else {
+                fErrorMessage.setText("Registration failed: " + response.getBody()); // Hantera fel
+            }
         }
     }
+
+
 }
