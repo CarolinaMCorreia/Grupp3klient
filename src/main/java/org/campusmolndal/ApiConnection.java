@@ -7,24 +7,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class ApiClient {
+public class ApiConnection {
 
-    public static ApiResponse register(String username, String password) {
+    public static ApiResponse sendRequest(String urlString, String method, String jsonInput) {
         try {
-            URL url = new URL("http://localhost:8080/auth/register");
+            URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
 
-            // Skapa JSON-data
-            String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password);
-
-            // Skicka JSON-data i request body
-            try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
+            if (jsonInput != null && !jsonInput.isEmpty()) {
+                try (OutputStream os = connection.getOutputStream()) {
+                    byte[] input = jsonInput.getBytes(StandardCharsets.UTF_8);
+                    os.write(input, 0, input.length);
+                }
             }
 
             // Läs svaret

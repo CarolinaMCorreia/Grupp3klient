@@ -31,6 +31,13 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
+    // Ny metod för att ladda en FXML och få kontrollern
+    public static <T> T loadController(String fxml) throws IOException {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        Parent root = loader.load();
+        return loader.getController(); // Hämta kontrollern
+    }
+
     public static void main(String[] args) {
         launch();
     }
