@@ -1,12 +1,16 @@
-package org.campusmolndal;
+package org.campusmolndal.controllers;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.campusmolndal.ApiResponse;
+import org.campusmolndal.App;
+import org.campusmolndal.services.LoginService;
 
 public class LoginController {
+
     @FXML
     private TextField fUsername;
     @FXML
@@ -26,10 +30,14 @@ public class LoginController {
         if (username.isBlank() || password.isBlank()) {
             fErrorMessage.setText("Enter valid username and password");
         } else {
-            if (/*ApiClient.login(username, password)*/ false) {
-                App.setRoot("home");
+            ApiResponse response = LoginService.login(username, password);
+            if (response.isSuccessful()) {
+                fErrorMessage.setText("Login successful!"); // Hantera framgång
+                App.setRoot("homepage");
+                HomePageController homePageController = App.loadController("homepage");
+                homePageController.setUsername(username);
             } else {
-                fErrorMessage.setText("Unable to log in");
+                fErrorMessage.setText("Login failed: " + response.getBody()); // Hantera fel
             }
         }
     }

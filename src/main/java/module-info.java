@@ -4,4 +4,8 @@ module org.campusmolndal {
 
     opens org.campusmolndal to javafx.fxml;
     exports org.campusmolndal;
+    exports org.campusmolndal.controllers;
+    opens org.campusmolndal.controllers to javafx.fxml;
+    exports org.campusmolndal.services;
+    opens org.campusmolndal.services to javafx.fxml;
 }

@@ -1,12 +1,15 @@
-package org.campusmolndal;
+package org.campusmolndal.controllers;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.campusmolndal.ApiResponse;
+import org.campusmolndal.App;
+import org.campusmolndal.services.RegistrationService;
 
-public class RegisterController {
+public class RegistrationController {
     @FXML
     private TextField fUsername;
     @FXML
@@ -26,7 +29,14 @@ public class RegisterController {
         if (username.isBlank() || password.isBlank()) {
             fErrorMessage.setText("Enter valid username and password");
         } else {
-            /*ApiClient.register(username, password);*/
+            ApiResponse response = RegistrationService.register(username, password);
+            if (response.isSuccessful()) {
+                fErrorMessage.setText("Registration successful!"); // Hantera framgång
+            } else {
+                fErrorMessage.setText("Registration failed: " + response.getBody()); // Hantera fel
+            }
         }
     }
+
+
 }
