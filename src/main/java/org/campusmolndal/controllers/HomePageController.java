@@ -16,6 +16,8 @@ public class HomePageController {
         usernameLabel.setText("Inloggad som: " + username);
     }
 
+    public void getUsername(String username){usernameLabel.setText(username);}
+
     // Denna metod hanterar utloggning
     @FXML
     private void logout() throws IOException {
