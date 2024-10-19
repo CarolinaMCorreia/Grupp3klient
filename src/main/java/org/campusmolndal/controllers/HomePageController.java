@@ -24,4 +24,9 @@ public class HomePageController {
         // Navigera tillbaka till inloggningssidan
         App.setRoot("login");
     }
+
+    @FXML
+    private void browseWorld() throws IOException {
+        App.setRoot("browseworld");  // Ladda browseworld.fxml
+    }
 }

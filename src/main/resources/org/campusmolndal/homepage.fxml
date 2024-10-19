@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
 
@@ -9,6 +7,7 @@
     <children>
         <Label text="Välkommen till hemsidan!" style="-fx-font-size: 24px;"/>
         <Label fx:id="usernameLabel" text="" style="-fx-font-size: 18px;"/>
+        <Button text="Browse World" onAction="#browseWorld"/>
         <Button text="Logga ut" onAction="#logout"/>
     </children>
     <padding>
