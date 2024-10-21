@@ -33,9 +33,21 @@ public class LoginController {
             ApiResponse response = LoginService.login(username, password);
             if (response.isSuccessful()) {
                 fErrorMessage.setText("Login successful!"); // Hantera framgång
-                App.setRoot("homepage");
-                HomePageController homePageController = App.loadController("homepage");
-                homePageController.setUsername(username);
+
+                // Kontrollera om användaren är admin
+                if (username.equalsIgnoreCase("admin")) {
+                    // Om admin, ladda adminhomepage
+                    App.setRoot("adminhomepage");
+                    AdminHomePageController adminHomePageController = App.loadController("adminhomepage");
+                    adminHomePageController.setUsername(username);
+                } else {
+                    // Om vanlig användare, ladda homepage
+                    App.setRoot("homepage");
+                    HomePageController homePageController = App.loadController("homepage");
+                    homePageController.setUsername(username);
+                }
+
+
             } else {
                 fErrorMessage.setText("Login failed: " + response.getBody()); // Hantera fel
             }

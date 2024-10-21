@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #D3D3D3;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.campusmolndal.controllers.UserController">
+    <Label alignment="TOP_LEFT" text="Search for User">
+      <font>
+         <Font name="Inter Semi Bold" size="12.0" />
+      </font></Label>
+    <TextField fx:id="fUsername" maxWidth="200" promptText="Enter username" />
+    <Button onAction="#getUserByUsername" text="Search">
+      <font>
+         <Font name="Inter Semi Bold" size="12.0" />
+      </font></Button>
+    <Label fx:id="fErrorMessage" />
+    <!-- Döljer uppdaterings- och raderingsalternativ tills man hämtat användare -->
+    <VBox fx:id="userOptions" spacing="10.0" visible="false">
+        <Label text="Update or Delete User" />
+        <PasswordField fx:id="fNewPassword" maxWidth="200" promptText="Enter new password" />
+        <Button onAction="#updateUserPassword" text="Update Password" />
+        <Button onAction="#deleteUser" text="Delete User" />
+    </VBox>
+    <Button onAction="#getAllUsers" text="Fetch All Users">
+      <font>
+         <Font name="Inter Semi Bold" size="11.0" />
+      </font></Button>
+    <ListView fx:id="userList" maxHeight="200" maxWidth="300" />
+</VBox>

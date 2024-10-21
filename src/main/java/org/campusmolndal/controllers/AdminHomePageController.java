@@ -6,7 +6,8 @@ import org.campusmolndal.App;
 
 import java.io.IOException;
 
-public class HomePageController {
+public class AdminHomePageController {
+
 
     @FXML
     private Label usernameLabel;
@@ -28,5 +29,10 @@ public class HomePageController {
     @FXML
     private void browseWorld() throws IOException {
         App.setRoot("browseworld");  // Ladda browseworld.fxml
+    }
+
+    @FXML
+    private void adminBrowseWorld() throws IOException {
+        App.setRoot("user");  // Ladda browseworld.fxml
     }
 }

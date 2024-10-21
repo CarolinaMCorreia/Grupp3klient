@@ -3,13 +3,42 @@ package org.campusmolndal.services;
 import org.campusmolndal.ApiConnection;
 import org.campusmolndal.ApiResponse;
 
+
 public class LoginService {
 
-        public static ApiResponse login(String username, String password) {
-            String url = "http://localhost:8080/auth/login";
-            String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password);
+    public static ApiResponse login(String username, String password) {
+        String url = "http://localhost:8080/auth/login";
+        String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password);
 
-            return ApiConnection.sendRequest(url, "POST", jsonInputString);
-        }
+        return ApiConnection.sendRequest(url, "POST", jsonInputString);
+    }
 
+    public static ApiResponse getUserName(String username) {
+        String url = String.format("http://localhost:8080/admin/user/%s", username);
+        return ApiConnection.sendRequest(url, "GET", null);
+    }
+
+    public static ApiResponse deleteUser(String username){
+        String url = String.format("http://localhost:8080/admin/user/%s", username);
+        return ApiConnection.sendRequest(url, "DELETE", null);
+    }
+
+    public static ApiResponse getAllUsers() {
+        String url = "http://localhost:8080/admin/user";
+        ApiResponse response = ApiConnection.sendRequest(url, "GET", null);
+
+        // lista
+
+        return response;
+
+    }
+
+    public static ApiResponse updatePassword(String username, String currentPassword, String newPassword) {
+        String url = "http://localhost:8080/admin/user";
+        String jsonInputString = String.format(
+                "{\"username\": \"%s\", \"currentPassword\": \"%s\", \"newPassword\": \"%s\"}",
+                username, currentPassword, newPassword
+        );
+        return ApiConnection.sendRequest(url, "PUT", jsonInputString);
+    }
 }
