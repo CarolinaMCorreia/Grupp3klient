@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="20.0" 
+    xmlns="http://javafx.com/javafx/8.0.171" 
+    xmlns:fx="http://javafx.com/fxml/1" 
+    fx:controller="org.campusmolndal.controllers.CityController">
+    <HBox>
+        <Button text="Back" onAction="#returnToCountry"/>
+        <Label fx:id="cityNameLabel" style="-fx-font-size: 18px;"/>
+    </HBox>
+    <HBox>
+        <VBox>
+            <Label text="Population:"/>
+            <Label text="Known for:"/>
+        </VBox>
+        <VBox>
+            <Text fx:id="populationText"/>
+            <Text fx:id="knownForText"/>
+        </VBox>
+    </HBox>
+</VBox>

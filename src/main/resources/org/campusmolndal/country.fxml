@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="20.0" 
+    xmlns="http://javafx.com/javafx/8.0.171" 
+    xmlns:fx="http://javafx.com/fxml/1" 
+    fx:controller="org.campusmolndal.controllers.CountryController">
+    <HBox>
+        <Button text="Back" onAction="#returnToContinents"/>
+        <Label fx:id="countryNameLabel" style="-fx-font-size: 18px;"/>
+    </HBox>
+    <HBox>
+        <VBox>
+            <Label text="Cities"/>
+            <VBox fx:id="navBox"/>
+        </VBox>
+        <VBox>
+            <Label text="Language:"/>
+            <Label text="Population:"/>
+        </VBox>
+        <VBox>
+            <Text fx:id="LanguageText"/>
+            <Text fx:id="populationText"/>
+        </VBox>
+    </HBox>
+</VBox>
