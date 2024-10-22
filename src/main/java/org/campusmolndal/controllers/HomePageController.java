@@ -27,6 +27,8 @@ public class HomePageController {
 
     @FXML
     private void browseWorld() throws IOException {
-        App.setRoot("browseworld");  // Ladda browseworld.fxml
+        App.setRoot("continents");
+        ContinentController continentController = App.loadController("continents");
+        continentController.initialize();
     }
 }
