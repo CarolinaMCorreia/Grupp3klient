@@ -8,10 +8,11 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class ApiConnection {
-
+    static final String BASE_URL = "http://localhost:5000"; 
+    
     public static ApiResponse sendRequest(String urlString, String method, String jsonInput) {
         try {
-            URL url = new URL(urlString);
+            URL url = new URL(BASE_URL + urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
