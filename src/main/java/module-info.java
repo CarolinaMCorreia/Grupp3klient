@@ -1,6 +1,7 @@
 module org.campusmolndal {
     requires javafx.controls;
     requires javafx.fxml;
+    requires com.fasterxml.jackson.databind;
 
     opens org.campusmolndal to javafx.fxml;
     exports org.campusmolndal;
