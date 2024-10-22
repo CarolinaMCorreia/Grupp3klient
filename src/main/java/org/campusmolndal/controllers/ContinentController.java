@@ -8,6 +8,7 @@ import org.campusmolndal.ApiResponse;
 import org.campusmolndal.App;
 import org.campusmolndal.models.Continent;
 import org.campusmolndal.models.Country;
+import org.campusmolndal.models.User;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,10 +20,7 @@ public class ContinentController {
     @FXML
     HBox continentsList;
 
-    String loggedInUsername;
-
-    public void initialize(String username) {
-        loggedInUsername = username;
+    public void initialize() {
         setContinents(getContinents());
     }
 
@@ -89,6 +87,6 @@ public class ContinentController {
     private void returnToHomepage() throws IOException {
         App.setRoot("homepage");
         HomePageController homePageController = App.loadController("homepage");
-        homePageController.setUsername(loggedInUsername);
+        homePageController.setUsername(User.name);
     }
 }

@@ -7,6 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.campusmolndal.ApiResponse;
 import org.campusmolndal.App;
+import org.campusmolndal.models.User;
 import org.campusmolndal.services.LoginService;
 
 public class LoginController {
@@ -35,7 +36,8 @@ public class LoginController {
                 fErrorMessage.setText("Login successful!"); // Hantera framgång
                 App.setRoot("homepage");
                 HomePageController homePageController = App.loadController("homepage");
-                homePageController.setUsername(username);
+                User.name = username;
+                homePageController.setUsername(User.name);
             } else {
                 fErrorMessage.setText("Login failed: " + response.getBody()); // Hantera fel
             }
