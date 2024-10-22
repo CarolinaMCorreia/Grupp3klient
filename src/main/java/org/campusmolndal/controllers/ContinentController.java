@@ -3,6 +3,7 @@ package org.campusmolndal.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.campusmolndal.ApiConnection;
 import org.campusmolndal.ApiResponse;
 import org.campusmolndal.App;
@@ -20,12 +21,12 @@ public class ContinentController {
     @FXML
     HBox continentsList;
 
-    public void initialize() {
+    public void initialize() throws JsonProcessingException {
         setContinents(getContinents());
     }
 
-    private List<Continent> getContinents() {
-        ApiResponse apiResponse = ApiConnection.sendRequest(
+    private List<Continent> getContinents() throws JsonProcessingException {
+        ApiResponse apiResponse = ApiConnection.sendAuthorizedRequest(
             "/user/continents",
             "GET",
             null
@@ -57,13 +58,17 @@ public class ContinentController {
     }
 
     private List<Country> getCountries() {
-        ApiResponse apiResponse = ApiConnection.sendRequest(
+        ApiResponse apiResponse = ApiConnection.sendAuthorizedRequest(
             "/user/countries",
             "GET",
             null
         );
         if (apiResponse.isSuccessful()) {
-            return Country.getList(apiResponse.getBody());
+            try {
+                return Country.getList(apiResponse.getBody());
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             return List.of();
         }
