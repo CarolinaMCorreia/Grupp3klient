@@ -3,6 +3,7 @@ package org.campusmolndal.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.campusmolndal.ApiConnection;
 import org.campusmolndal.ApiResponse;
 import org.campusmolndal.App;
@@ -31,7 +32,7 @@ public class CountryController {
     Country country;
     List<City> cities;
 
-    public void initialize(Country country) {
+    public void initialize(Country country) throws JsonProcessingException {
         this.country = country;
 
         countryNameLabel.setText(country.getName());
@@ -44,7 +45,7 @@ public class CountryController {
         }
     }
 
-    private List<City> getCities() {
+    private List<City> getCities() throws JsonProcessingException {
         ApiResponse apiResponse = ApiConnection.sendAuthorizedRequest(
             "/user/cities",
             "GET",

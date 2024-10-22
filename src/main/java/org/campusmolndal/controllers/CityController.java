@@ -26,7 +26,7 @@ public class CityController {
         this.country = country;
 
         cityNameLabel.setText(city.getName());
-        populationText.setText(city.getPopulation());
+        populationText.setText(String.valueOf(city.getPopulation())); // Convert Long to String
         knownForText.setText(city.getKnownFor());
     }
 
