@@ -19,7 +19,10 @@ public class ContinentController {
     @FXML
     HBox continentsList;
 
-    public void initialize() {
+    String loggedInUsername;
+
+    public void initialize(String username) {
+        loggedInUsername = username;
         setContinents(getContinents());
     }
 
@@ -51,7 +54,7 @@ public class ContinentController {
         countriesList.getChildren().add(continentName);
 
         for (Country country : getCountries()) {
-            countriesList.getChildren().add(CountryButton(country));
+            countriesList.getChildren().add(countryButton(country));
         }
     }
 
@@ -68,7 +71,7 @@ public class ContinentController {
         }
     }
 
-    private Button CountryButton(Country country) {
+    private Button countryButton(Country country) {
         Button button = new Button(country.getName());
         button.setOnAction(event -> {
             try {
@@ -80,5 +83,12 @@ public class ContinentController {
             }
         });
         return button;
+    }
+
+    @FXML
+    private void returnToHomepage() throws IOException {
+        App.setRoot("homepage");
+        HomePageController homePageController = App.loadController("homepage");
+        homePageController.setUsername(loggedInUsername);
     }
 }
