@@ -2,15 +2,26 @@ package org.campusmolndal.services;
 
 import org.campusmolndal.ApiConnection;
 import org.campusmolndal.ApiResponse;
+import org.campusmolndal.JsonHandler;
+import org.campusmolndal.models.TokenResponse;
+
+import java.io.IOException;
 
 
 public class LoginService {
 
-    public static ApiResponse login(String username, String password) {
+    public static String login(String username, String password) {
         String url = "/auth/login";
         String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password);
 
-        return ApiConnection.sendRequest(url, "POST", jsonInputString);
+        ApiResponse response = ApiConnection.sendPublicRequest(url, "POST", jsonInputString);
+        try {
+        TokenResponse tokenResponse = JsonHandler.fromJson(response.getBody(), TokenResponse.class);
+        return tokenResponse.getToken();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static ApiResponse getUserName(String username) {

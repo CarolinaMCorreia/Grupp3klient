@@ -7,6 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.campusmolndal.ApiResponse;
 import org.campusmolndal.App;
+import org.campusmolndal.SessionManager;
 import org.campusmolndal.models.User;
 import org.campusmolndal.services.LoginService;
 
@@ -31,9 +32,10 @@ public class LoginController {
         if (username.isBlank() || password.isBlank()) {
             fErrorMessage.setText("Enter valid username and password");
         } else {
-            ApiResponse response = LoginService.login(username, password);
-            if (response.isSuccessful()) {
+            String token = LoginService.login(username, password);
+            if (token != null && !token.isBlank()) {
                 fErrorMessage.setText("Login successful!"); // Hantera framgång
+                SessionManager.setToken(token); // Spara token
 
                 // Kontrollera om användaren är admin
                 if (username.equalsIgnoreCase("admin")) {
@@ -51,7 +53,7 @@ public class LoginController {
 
 
             } else {
-                fErrorMessage.setText("Login failed: " + response.getBody()); // Hantera fel
+                fErrorMessage.setText("Login failed."); // Hantera fel
             }
         }
     }
