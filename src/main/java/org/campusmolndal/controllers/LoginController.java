@@ -45,7 +45,8 @@ public class LoginController {
                     // Om vanlig användare, ladda homepage
                     App.setRoot("homepage");
                     HomePageController homePageController = App.loadController("homepage");
-                    homePageController.setUsername(username);
+                    User.name = username;
+                    homePageController.setUsername(User.name);
                 }
 
 
