@@ -32,10 +32,10 @@ public class LoginController {
         if (username.isBlank() || password.isBlank()) {
             fErrorMessage.setText("Enter valid username and password");
         } else {
-            String token = LoginService.login(username, password);
-            if (token != null && !token.isBlank()) {
+            LoginService.login(username, password);
+            if (User.jwt != null && !User.jwt.isBlank()) {
                 fErrorMessage.setText("Login successful!"); // Hantera framgång
-                SessionManager.setToken(token); // Spara token
+                //SessionManager.setToken(token); // Spara token
 
                 // Kontrollera om användaren är admin
                 if (username.equalsIgnoreCase("admin")) {
