@@ -64,7 +64,11 @@ public class ContinentController {
             null
         );
         if (apiResponse.isSuccessful()) {
-            return Country.getList(apiResponse.getBody());
+            try {
+                return Country.getList(apiResponse.getBody());
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             return List.of();
         }
