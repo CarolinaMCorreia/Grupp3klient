@@ -45,7 +45,7 @@ public class CountryController {
     }
 
     private List<City> getCities() {
-        ApiResponse apiResponse = ApiConnection.sendRequest(
+        ApiResponse apiResponse = ApiConnection.sendAuthorizedRequest(
             "/user/cities",
             "GET",
             null

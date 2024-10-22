@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import org.campusmolndal.models.User;
+
 public class ApiConnection {
     static final String BASE_URL = "http://localhost:5000"; 
     
@@ -15,6 +17,45 @@ public class ApiConnection {
             URL url = new URL(BASE_URL + urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
+            connection.setRequestProperty("Content-Type", "application/json; utf-8");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+
+            if (jsonInput != null && !jsonInput.isEmpty()) {
+                try (OutputStream os = connection.getOutputStream()) {
+                    byte[] input = jsonInput.getBytes(StandardCharsets.UTF_8);
+                    os.write(input, 0, input.length);
+                }
+            }
+
+            // Läs svaret
+            BufferedReader in;
+            if (connection.getResponseCode() >= 200 && connection.getResponseCode() < 300) {
+                in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            } else {
+                in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+            }
+
+            StringBuilder response = new StringBuilder();
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            return new ApiResponse(connection.getResponseCode(), response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse(HttpURLConnection.HTTP_INTERNAL_ERROR, "An error occurred: " + e.getMessage());
+        }
+    }
+
+    public static ApiResponse sendAuthorizedRequest(String urlString, String method, String jsonInput) {
+        try {
+            URL url = new URL(BASE_URL + urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod(method);
+            connection.addRequestProperty("Authorization", "Bearer " + User.jwt);
             connection.setRequestProperty("Content-Type", "application/json; utf-8");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);

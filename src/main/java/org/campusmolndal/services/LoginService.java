@@ -2,7 +2,9 @@ package org.campusmolndal.services;
 
 import org.campusmolndal.ApiConnection;
 import org.campusmolndal.ApiResponse;
+import org.campusmolndal.models.User;
 
+import org.json.JSONObject;
 
 public class LoginService {
 
@@ -10,7 +12,13 @@ public class LoginService {
         String url = "/auth/login";
         String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password);
 
-        return ApiConnection.sendRequest(url, "POST", jsonInputString);
+        ApiResponse apiResponse = ApiConnection.sendRequest(url, "POST", jsonInputString);
+        if (apiResponse.isSuccessful()) {
+            User.name = username;
+            JSONObject jsonObject = new JSONObject(apiResponse.getBody());
+            User.jwt = jsonObject.getString("token");
+        }
+        return apiResponse;
     }
 
     public static ApiResponse getUserName(String username) {

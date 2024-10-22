@@ -25,7 +25,7 @@ public class ContinentController {
     }
 
     private List<Continent> getContinents() {
-        ApiResponse apiResponse = ApiConnection.sendRequest(
+        ApiResponse apiResponse = ApiConnection.sendAuthorizedRequest(
             "/user/continents",
             "GET",
             null
@@ -57,7 +57,7 @@ public class ContinentController {
     }
 
     private List<Country> getCountries() {
-        ApiResponse apiResponse = ApiConnection.sendRequest(
+        ApiResponse apiResponse = ApiConnection.sendAuthorizedRequest(
             "/user/countries",
             "GET",
             null
