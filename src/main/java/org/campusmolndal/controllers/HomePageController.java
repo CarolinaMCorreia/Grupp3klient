@@ -3,6 +3,7 @@ package org.campusmolndal.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.campusmolndal.App;
+import org.campusmolndal.SessionManager;
 
 import java.io.IOException;
 
@@ -22,6 +23,7 @@ public class HomePageController {
     @FXML
     private void logout() throws IOException {
         // Navigera tillbaka till inloggningssidan
+        SessionManager.clearToken();
         App.setRoot("login");
     }
 
