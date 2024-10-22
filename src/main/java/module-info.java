@@ -4,12 +4,13 @@ module org.campusmolndal {
     requires com.fasterxml.jackson.databind;
     requires org.json;
 
-    opens org.campusmolndal to javafx.fxml;
     exports org.campusmolndal;
     exports org.campusmolndal.controllers;
-    opens org.campusmolndal.controllers to javafx.fxml;
     exports org.campusmolndal.services;
-    opens org.campusmolndal.services to javafx.fxml;
     exports org.campusmolndal.models;
-    opens org.campusmolndal.models to java.fxml;
+
+    opens org.campusmolndal to javafx.fxml;
+    opens org.campusmolndal.controllers to javafx.fxml;
+    opens org.campusmolndal.services to javafx.fxml;
+    opens org.campusmolndal.models to java.fxml, com.fasterxml.jackson.databind;
 }
