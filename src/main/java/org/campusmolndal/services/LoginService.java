@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.campusmolndal.ApiConnection;
 import org.campusmolndal.ApiResponse;
+import org.campusmolndal.SessionManager;
 import org.campusmolndal.models.User;
 
 import org.json.JSONObject;
@@ -20,9 +21,11 @@ public class LoginService {
 
         ApiResponse apiResponse = sendRequest(url, "POST", jsonInputString);
         if (apiResponse.isSuccessful()) {
-            User.name = username;
             JSONObject jsonObject = new JSONObject(apiResponse.getBody());
-            User.jwt = jsonObject.getString("token");
+            String token = jsonObject.getString("token");
+            SessionManager.setToken(token);
+            User.name = username;
+            User.jwt = token;
         }
         return apiResponse;
     }
