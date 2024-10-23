@@ -22,6 +22,8 @@
     <!-- Döljer uppdaterings- och raderingsalternativ tills man hämtat användare -->
     <VBox>
         <Label text="Update or Delete User" />
+        <TextField fx:id="fUsernameToUpdate" maxWidth="200" promptText="Enter username" />
+        <PasswordField fx:id="fCurrentPassword" maxWidth="200" promptText="Enter current password" />
         <PasswordField fx:id="fNewPassword" maxWidth="200" promptText="Enter new password" />
         <Button onAction="#updateUserPassword" text="Update Password" />
         <Button onAction="#deleteUser" text="Delete User" />
@@ -32,8 +34,6 @@
             <Font name="Inter Semi Bold" size="11.0" />
         </font>
     </Button>
-
-    <ListView fx:id="userList" maxHeight="200" maxWidth="300" />
 
     <!-- Adding the TableView for displaying user details -->
     <TableView fx:id="userTableView" maxHeight="300" maxWidth="400">

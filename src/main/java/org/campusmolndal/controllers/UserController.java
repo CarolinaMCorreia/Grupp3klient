@@ -35,7 +35,7 @@ public class UserController {
     @FXML
     private PasswordField fNewPassword;
     @FXML
-    private PasswordField fCurrnetPassword;
+    private PasswordField fCurrentPassword;
     @FXML
     private ListView<String> userList;
     @FXML
@@ -60,7 +60,7 @@ public class UserController {
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
         authoritiesCol.setCellValueFactory(new PropertyValueFactory<>("authorities"));
-        userTableView.setItems(userObservableList); // Bind the observable list to the TableView
+        userTableView.setItems(userObservableList);
     }
     @FXML
     private void getAllUsers() {
