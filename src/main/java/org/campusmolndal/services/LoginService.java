@@ -2,6 +2,7 @@ package org.campusmolndal.services;
 
 import org.campusmolndal.ApiConnection;
 import org.campusmolndal.ApiResponse;
+import org.campusmolndal.SessionManager;
 import org.campusmolndal.models.User;
 
 import org.json.JSONObject;
@@ -14,9 +15,11 @@ public class LoginService {
 
         ApiResponse apiResponse = ApiConnection.sendRequest(url, "POST", jsonInputString);
         if (apiResponse.isSuccessful()) {
-            User.name = username;
             JSONObject jsonObject = new JSONObject(apiResponse.getBody());
-            User.jwt = jsonObject.getString("token");
+            String token = jsonObject.getString("token");
+            SessionManager.setToken(token);
+            User.name = username;
+            User.jwt = token;
         }
         return apiResponse;
     }
