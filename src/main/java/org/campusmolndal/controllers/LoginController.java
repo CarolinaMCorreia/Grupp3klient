@@ -11,6 +11,8 @@ import org.campusmolndal.SessionManager;
 import org.campusmolndal.models.User;
 import org.campusmolndal.services.LoginService;
 
+import static org.campusmolndal.SessionManager.token;
+
 public class LoginController {
 
     @FXML
@@ -35,7 +37,7 @@ public class LoginController {
             LoginService.login(username, password);
             if (User.jwt != null && !User.jwt.isBlank()) {
                 fErrorMessage.setText("Login successful!"); // Hantera framgång
-                //SessionManager.setToken(token); // Spara token
+                SessionManager.setToken(token); // Spara token
 
                 // Kontrollera om användaren är admin
                 if (username.equalsIgnoreCase("admin")) {

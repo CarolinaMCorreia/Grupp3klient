@@ -3,6 +3,7 @@ module org.campusmolndal {
     requires javafx.fxml;
     requires com.fasterxml.jackson.databind;
     requires org.json;
+    requires com.google.gson;
 
     exports org.campusmolndal;
     exports org.campusmolndal.controllers;
