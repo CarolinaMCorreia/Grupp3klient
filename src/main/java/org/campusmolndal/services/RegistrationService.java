@@ -9,7 +9,7 @@ public class RegistrationService {
         String url = "/auth/register";
         String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password);
 
-        return ApiConnection.sendPublicRequest(url, "POST", jsonInputString);
+        return ApiConnection.sendRequest(url, "POST", jsonInputString);
     }
     // Du kan lägga till fler metoder som kallar på `ApiConnection` här, som t.ex. login, update, etc.
 }

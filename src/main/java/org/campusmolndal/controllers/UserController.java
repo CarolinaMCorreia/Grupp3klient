@@ -35,6 +35,8 @@ public class UserController {
     @FXML
     private PasswordField fNewPassword;
     @FXML
+    private PasswordField fCurrnetPassword;
+    @FXML
     private ListView<String> userList;
     @FXML
     private Label foundUsernameLabel;
@@ -91,7 +93,6 @@ public class UserController {
             fErrorMessage.setText("Enter both username and new password");
             return;
         }
-
         ApiResponse response = LoginService.updatePassword(username, currentPassword, newPassword);
         if (response.isSuccessful()) {
             fErrorMessage.setText("Password updated successfully");

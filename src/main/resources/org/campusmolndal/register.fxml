@@ -13,7 +13,7 @@
             <TextField fx:id="fUsername"/>
         </HBox>
         <HBox alignment="CENTER" spacing="20.0">
-            <Label text="Passowrd:"/>
+            <Label text="Password:"/>
             <PasswordField fx:id="fPassword"/>
         </HBox>
         <Button text="Register" onAction="#register"/>
