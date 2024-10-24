@@ -49,6 +49,7 @@ public class ApiConnection {
     }
 
     public static ApiResponse sendAuthorizedRequest(String urlString, String method, String jsonInput) {
+
         try {
             URL url = new URL(BASE_URL + urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

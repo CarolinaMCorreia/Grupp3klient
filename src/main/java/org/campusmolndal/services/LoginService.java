@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import java.util.Set;
 
-import static org.campusmolndal.ApiConnection.sendRequest;
+import static org.campusmolndal.ApiConnection.*;
 
 public class LoginService {
 
@@ -35,9 +35,9 @@ public class LoginService {
         return ApiConnection.sendGetRequest(url, "GET", null);
     }
 
-    public static ApiResponse deleteUser(String username){
+    public static ApiResponse deleteUser(String username) {
         String url = String.format("/admin/user/%s", username);
-        return sendRequest(url, "DELETE", null);
+        return sendGetRequest(url, "DELETE", null);
     }
 
     public static ApiResponse getAllUsers() {
@@ -46,14 +46,13 @@ public class LoginService {
         return response;
     }
 
+    public static ApiResponse updateUserRoles(String username, Set<String> roles) throws JsonProcessingException {
+        String url = "/admin/user/roles";
 
-    public static ApiResponse updatePassword(String username, String currentPassword, String newPassword) {
-        String url = "/admin/user";
         String jsonInputString = String.format(
-                "{\"username\": \"%s\", \"currentPassword\": \"%s\", \"newPassword\": \"%s\"}",
-                username, currentPassword, newPassword
+                "{\"username\": \"%s\", \"authorities\": %s}",
+                username, new ObjectMapper().writeValueAsString(roles)
         );
-        return sendRequest(url, "PUT", jsonInputString);
+        return sendGetRequest(url, "PUT", jsonInputString);
     }
-
 }

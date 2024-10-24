@@ -2,45 +2,64 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
-<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #D3D3D3;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.campusmolndal.controllers.UserController">
-    <Label alignment="TOP_LEFT" text="Search for User">
-        <font>
-            <Font name="Inter Semi Bold" size="12.0" />
-        </font>
-    </Label>
-    <TextField fx:id="fUsername" maxWidth="200" promptText="Enter username" />
-    <Button onAction="#getUserByUsername" text="Search">
-        <font>
-            <Font name="Inter Semi Bold" size="12.0" />
-        </font>
-    </Button>
-    <Label fx:id="fErrorMessage" />
-    <Label fx:id="foundUsernameLabel" text="" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #F4F4F4;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.campusmolndal.controllers.UserController">
 
-    <!-- Döljer uppdaterings- och raderingsalternativ tills man hämtat användare -->
-    <VBox>
-        <Label text="Update or Delete User" />
-        <TextField fx:id="fUsernameToUpdate" maxWidth="200" promptText="Enter username" />
-        <PasswordField fx:id="fCurrentPassword" maxWidth="200" promptText="Enter current password" />
-        <PasswordField fx:id="fNewPassword" maxWidth="200" promptText="Enter new password" />
-        <Button onAction="#updateUserPassword" text="Update Password" />
-        <Button onAction="#deleteUser" text="Delete User" />
-    </VBox>
+    <!-- HBox för att placera sökfält och hämta alla användare bredvid varandra -->
+    <HBox spacing="20" alignment="CENTER">
+        <Label text="Search for User" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;">
+            <font>
+                <Font name="Arial" size="14.0" />
+            </font>
+        </Label>
+        <TextField fx:id="fUsername" maxWidth="200" promptText="Enter username" style="-fx-prompt-text-fill: #888; -fx-border-color: #B0BEC5; -fx-border-radius: 5; -fx-background-color: #FFFFFF;"/>
+        <Button onAction="#getUserByUsername" text="Search" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10; -fx-border-radius: 5;" />
 
-    <Button onAction="#getAllUsers" text="Fetch All Users">
-        <font>
-            <Font name="Inter Semi Bold" size="11.0" />
-        </font>
-    </Button>
+    </HBox>
 
-    <!-- Adding the TableView for displaying user details -->
-    <TableView fx:id="userTableView" maxHeight="300" maxWidth="400">
+    <Label fx:id="fErrorMessage" style="-fx-text-fill: red;" />
+    <Label fx:id="foundUsernameLabel" text="" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #333;" />
+
+    <!-- TableView för att visa användardetaljer -->
+    <Button onAction="#getAllUsers" text="Fetch All Users" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10; -fx-border-radius: 5;" />
+    <TableView fx:id="userTableView" maxHeight="300" maxWidth="400" style="-fx-background-color: #FFFFFF; -fx-border-radius: 10;">
         <columns>
             <TableColumn fx:id="idCol" text="ID" />
             <TableColumn fx:id="usernameCol" text="Username" />
             <TableColumn fx:id="authoritiesCol" text="Authorities" />
         </columns>
     </TableView>
+
+
+    <HBox spacing="20" alignment="CENTER">
+        <!-- Uppdatera användarens roll -->
+        <VBox spacing="10" style="-fx-background-color: #FFFFFF; -fx-padding: 15; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.0, 0, 1);">
+            <Label text="Update User Roles" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+            <TextField fx:id="fRoleUsername" maxWidth="200" promptText="Enter username to update roles" style="-fx-prompt-text-fill: #888; -fx-border-color: #B0BEC5; -fx-border-radius: 5; -fx-background-color: #FFFFFF;"/>
+            <Label text="Select Role:" style="-fx-text-fill: #333;" />
+            <ComboBox fx:id="fRoleComboBox" maxWidth="200" style="-fx-background-color: #FFFFFF; -fx-border-color: #B0BEC5; -fx-border-radius: 5;">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="ROLE_ADMIN" />
+                        <String fx:value="ROLE_USER" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <Button onAction="#updateUserRole" text="Update Roles" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10; -fx-border-radius: 5;" />
+            <Label fx:id="fRoleUpdateMessage" style="-fx-text-fill: #333;" />
+        </VBox>
+
+        <!-- Radera användare -->
+        <VBox spacing="10" style="-fx-background-color: #FFFFFF; -fx-padding: 15; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.0, 0, 1);">
+            <Label text="Delete User" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+            <TextField fx:id="fUsernameToDelete" maxWidth="200" promptText="Enter username to delete" style="-fx-prompt-text-fill: #888; -fx-border-color: #B0BEC5; -fx-border-radius: 5; -fx-background-color: #FFFFFF;"/>
+            <Button onAction="#deleteUser" text="Delete User" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10; -fx-border-radius: 5;" />
+            <Label fx:id="fDeleteMessage" style="-fx-text-fill: #333;" />
+        </VBox>
+    </HBox>
 </VBox>

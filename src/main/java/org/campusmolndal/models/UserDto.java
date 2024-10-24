@@ -6,7 +6,7 @@ import java.util.List;
 public class UserDto {
     private final int id;
     private final String username;
-    private final List<String> authorities;
+    private List<String> authorities;
 
     public UserDto(int id, String username, List<String> authorities) {
         this.id = id;
@@ -24,6 +24,10 @@ public class UserDto {
 
     public List<String> getAuthorities() {
         return authorities;
+    }
+
+    public void setAuthorities(List<String> authorities) {
+        this.authorities = authorities;
     }
 
     @Override

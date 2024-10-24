@@ -5,49 +5,48 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import org.campusmolndal.ApiResponse;
 import org.campusmolndal.models.UserDto;
 import org.campusmolndal.models.UserDtoAdapter;
 import org.campusmolndal.services.LoginService;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class UserController {
 
     @FXML
-    private TextField fUsername;
+    private Label fRoleUpdateMessage;
     @FXML
-    private PasswordField fPassword;
+    private TextField fUsername;
     @FXML
     private Label fErrorMessage;
     @FXML
-    private VBox userOptions;
+    private TextField fRoleUsername;
     @FXML
-    private PasswordField fNewPassword;
-    @FXML
-    private PasswordField fCurrentPassword;
-    @FXML
-    private ListView<String> userList;
+    private ComboBox<String> fRoleComboBox;
     @FXML
     private Label foundUsernameLabel;
     @FXML
-    private TableView<UserDto> userTableView; // Bind the TableView
+    private TextField fUsernameToDelete;
     @FXML
-    private TableColumn<UserDto, Integer> idCol; // Bind ID column
+    private TableView<UserDto> userTableView;
     @FXML
-    private TableColumn<UserDto, String> usernameCol; // Bind username column
+    private TableColumn<UserDto, Integer> idCol;
     @FXML
-    private TableColumn<UserDto, String> authoritiesCol; // Bind authorities column
+    private TableColumn<UserDto, String> usernameCol;
+    @FXML
+    private TableColumn<UserDto, String> authoritiesCol;
+
     private Gson gson = new Gson();
 
     private ObservableList<UserDto> userObservableList = FXCollections.observableArrayList();
@@ -62,6 +61,7 @@ public class UserController {
         authoritiesCol.setCellValueFactory(new PropertyValueFactory<>("authorities"));
         userTableView.setItems(userObservableList);
     }
+
     @FXML
     private void getAllUsers() {
         try {
@@ -70,40 +70,20 @@ public class UserController {
                 String jsonBody = response.getBody();
                 System.out.println("Received JSON: " + jsonBody);
                 List<UserDto> users = parseUserListJson(jsonBody);
-                userObservableList.setAll(users); // Use observable list for updates
+                userObservableList.setAll(users);
                 fErrorMessage.setText("Users retrieved successfully");
             } else {
                 fErrorMessage.setText("Could not retrieve users");
             }
         } catch (Exception e) {
             fErrorMessage.setText("Error retrieving users: " + e.getMessage());
-            e.printStackTrace(); // Print the full stack trace for debugging
-        }
-    }
-
-
-
-    @FXML
-    private void updateUserPassword() {
-        String username = fUsername.getText();
-        String newPassword = fNewPassword.getText();
-        String currentPassword = fPassword.getText();
-
-        if (username.isBlank() || newPassword.isBlank()) {
-            fErrorMessage.setText("Enter both username and new password");
-            return;
-        }
-        ApiResponse response = LoginService.updatePassword(username, currentPassword, newPassword);
-        if (response.isSuccessful()) {
-            fErrorMessage.setText("Password updated successfully");
-        } else {
-            fErrorMessage.setText("Could not update password");
+            e.printStackTrace();
         }
     }
 
     @FXML
     private void deleteUser() {
-        String username = fUsername.getText();
+        String username = fUsernameToDelete.getText();
         if (username.isBlank()) {
             fErrorMessage.setText("Enter username to delete");
             return;
@@ -111,7 +91,6 @@ public class UserController {
         ApiResponse response = LoginService.deleteUser(username);
         if (response.isSuccessful()) {
             fErrorMessage.setText("User deleted successfully");
-            userOptions.setVisible(false);
         } else {
             fErrorMessage.setText("Could not delete user");
         }
@@ -136,8 +115,39 @@ public class UserController {
         }
     }
 
+    @FXML
+    private void updateUserRole() {
+        String username = fRoleUsername.getText();
+        String selectedRole = fRoleComboBox.getValue();
 
-    // Method to parse JSON and set the found username label
+        if (username.isBlank()) {
+            fRoleUpdateMessage.setText("Enter username to update role");
+            return;
+        }
+
+        if (selectedRole == null) {
+            fRoleUpdateMessage.setText("Select a role to assign");
+            return;
+        }
+
+        try {
+            Set<String> rolesToUpdate = Set.of(selectedRole);
+            System.out.println("Sending payload for update: " + username + " with roles: " + rolesToUpdate);
+
+            ApiResponse response = LoginService.updateUserRoles(username, rolesToUpdate);
+
+            if (response.isSuccessful()) {
+                fRoleUpdateMessage.setText("User role updated successfully");
+            } else {
+                fRoleUpdateMessage.setText("Could not update user role");
+            }
+        } catch (JsonProcessingException e) {
+            fRoleUpdateMessage.setText("Error processing JSON: " + e.getMessage());
+        } catch (Exception e) {
+            fRoleUpdateMessage.setText("Unexpected error: " + e.getMessage());
+        }
+    }
+
     private void parseUserJson(String jsonBody) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -151,8 +161,8 @@ public class UserController {
     }
 
     private List<UserDto> parseUserListJson(String jsonBody) {
-        Type userListType = new TypeToken<List<UserDto>>() {}.getType();
+        Type userListType = new TypeToken<List<UserDto>>() {
+        }.getType();
         return gson.fromJson(jsonBody, userListType);
     }
-
 }
