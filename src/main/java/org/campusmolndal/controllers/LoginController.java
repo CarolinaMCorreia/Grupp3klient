@@ -7,11 +7,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.campusmolndal.ApiResponse;
 import org.campusmolndal.App;
+import org.campusmolndal.JsonHandler;
 import org.campusmolndal.SessionManager;
 import org.campusmolndal.models.User;
+import org.campusmolndal.models.UserDto;
 import org.campusmolndal.services.LoginService;
-
-import static org.campusmolndal.SessionManager.token;
 
 public class LoginController {
 
@@ -37,10 +37,17 @@ public class LoginController {
             LoginService.login(username, password);
             if (User.jwt != null && !User.jwt.isBlank()) {
                 fErrorMessage.setText("Login successful!"); // Hantera framgång
-                SessionManager.setToken(token); // Spara token
 
                 // Kontrollera om användaren är admin
-                if (username.equalsIgnoreCase("admin")) {
+                UserDto userDto = getUserByUsername(username);
+                User.name = username;
+                if (userDto == null) {
+                    User.isAdmin = false;
+                } else {
+                    User.isAdmin = true;
+                }
+
+                if (User.isAdmin) {
                     // Om admin, ladda adminhomepage
                     App.setRoot("adminhomepage");
                     AdminHomePageController adminHomePageController = App.loadController("adminhomepage");
@@ -49,7 +56,6 @@ public class LoginController {
                     // Om vanlig användare, ladda homepage
                     App.setRoot("homepage");
                     HomePageController homePageController = App.loadController("homepage");
-                    User.name = username;
                     homePageController.setUsername(User.name);
                 }
 
@@ -58,5 +64,20 @@ public class LoginController {
                 fErrorMessage.setText("Login failed."); // Hantera fel
             }
         }
+    }
+
+    private UserDto getUserByUsername(String username) {
+        try {
+            ApiResponse response = LoginService.getUserName(username);
+            if (response.isSuccessful()) {
+                String jsonBody = response.getBody();
+                return JsonHandler.parseUserJson(jsonBody);
+            } else {
+                fErrorMessage.setText("Could not find user");
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
     }
 }
