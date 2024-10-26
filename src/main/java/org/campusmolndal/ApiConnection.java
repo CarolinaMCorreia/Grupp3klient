@@ -5,7 +5,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import org.campusmolndal.controllers.HomePageController;
 import org.campusmolndal.models.User;
+
+import javax.security.auth.login.FailedLoginException;
+
+import static org.campusmolndal.services.LoginService.login;
 
 public class ApiConnection {
     static final String BASE_URL = "http://localhost:5000"; 
@@ -116,7 +121,6 @@ public class ApiConnection {
             }
 
             int responseCode = connection.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
 
             // Read response
             InputStream stream = (responseCode >= 200 && responseCode < 300)
