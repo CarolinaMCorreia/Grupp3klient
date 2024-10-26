@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.campusmolndal.ApiResponse;
+import org.campusmolndal.App;
 import org.campusmolndal.models.UserDto;
 import org.campusmolndal.models.UserDtoAdapter;
 import org.campusmolndal.services.LoginService;
@@ -112,6 +113,16 @@ public class UserController {
                 fErrorMessage.setText("Could not find user");
                 foundUsernameLabel.setText("");
             }
+        }
+    }
+
+    @FXML
+    private void routeToHomepage() {
+        try {
+            App.setRoot("homepage");
+            //HomePageController homePageController = App.loadController("homepage");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
