@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.campusmolndal.App;
 import org.campusmolndal.SessionManager;
+import org.campusmolndal.models.User;
 
 import java.io.IOException;
 
@@ -21,9 +22,9 @@ public class HomePageController {
 
     // Denna metod hanterar utloggning
     @FXML
-    private void logout() throws IOException {
+    public void logout() throws IOException {
         // Navigera tillbaka till inloggningssidan
-        SessionManager.clearToken();
+        User.resetSession();
         App.setRoot("login");
     }
 
